@@ -21,7 +21,7 @@ model = LSTM(
     input_size=6,  # TODO : 6
     hidden_size=hidden_size,
     batch_size=batch_size,
-    output_size=2,  # TODO : 2
+    output_size=1,  # TODO : 2
     num_layers=num_layers
 )
 
@@ -51,19 +51,21 @@ for epoch in range(num_epochs):
 
         model.zero_grad()
 
-        X_loacl_minibatch, y_local_minibatch = (
+        X_local_minibatch, y_local_minibatch = (
             train_X[i * batch_size: (i + 1) * batch_size, ],
             train_Y[i * batch_size: (i + 1) * batch_size, ]
         )
+        X_local_minibatch = X_local_minibatch.permute(1, 0, 2)
 
-        pred_Y, hidden_train = model(X_loacl_minibatch, hidden_train)
-
+        pred_Y, hidden_train = model(X_local_minibatch, hidden_train)
+        # print(pred_Y.shape, y_local_minibatch.shape)
         if not do_continue_train:
             hidden_train = None
         else:
             h_0, c_0 = hidden_train
             h_0.detach_(), c_0.detach_()
             hidden_train = (h_0, c_0)
+
         loss = criterion(pred_Y, y_local_minibatch)
         loss.backward()
         optimizer.step()
@@ -88,6 +90,8 @@ for epoch in range(num_epochs):
                     dev_X[i * batch_size: (i + 1) * batch_size, ],
                     dev_Y[i * batch_size: (i + 1) * batch_size, ],
                 )
+
+                X_local_minibatch = X_local_minibatch.permute(1, 0, 2)
 
                 pred_Y, hidden_train = model(X_local_minibatch, hidden_train)
                 val_loss = criterion(pred_Y, y_local_minibatch)

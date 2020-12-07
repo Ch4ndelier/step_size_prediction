@@ -20,5 +20,5 @@ class LSTM(torch.nn.Module):
 
     def forward(self, x, hidden=None):
         lstm_out, hidden = self.lstm(x, hidden)
-        linear_out = self.linear(lstm_out)
+        linear_out = self.linear(lstm_out[-1])
         return linear_out, hidden
