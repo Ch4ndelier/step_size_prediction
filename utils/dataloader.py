@@ -26,11 +26,14 @@ def load_data(DATA_DIR):
         train_X = torch.from_numpy(np.load(train_X_preprocessed_data)).type(torch.Tensor).to(device)
         train_Y = torch.from_numpy(np.load(train_Y_preprocessed_data)).type(torch.Tensor).to(device)
         print(train_X.type())
+        # print(train_Y)
         print(np.load(train_X_preprocessed_data).shape)
         print(np.load(train_Y_preprocessed_data).shape)
         dev_X = torch.from_numpy(np.load(dev_X_preprocessed_data)).type(torch.Tensor).to(device)
         dev_Y = torch.from_numpy(np.load(dev_Y_preprocessed_data)).type(torch.Tensor).to(device)
-
+        print("test data shape:")
+        print(np.load(dev_X_preprocessed_data).shape)
+        print(np.load(dev_Y_preprocessed_data).shape)
         # test_X = torch.from_numpy(np.load(test_X_preprocessed_data)).type(torch.Tensor)
         # test_Y = torch.from_numpy(np.load(test_Y_preprocessed_data)).type(torch.Tensor)
     else:
