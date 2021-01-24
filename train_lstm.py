@@ -70,7 +70,7 @@ for epoch in range(num_epochs):
         train_running_loss += loss.detach().item()
 
     print(
-        "Epoch:  %d | NLLoss: %.4f"
+        "Epoch:  %d | MSELoss: %.4f"
         % (epoch, train_running_loss / num_batches)
     )
 
@@ -100,10 +100,19 @@ for epoch in range(num_epochs):
 
             model.train()  # reset to train mode after iterationg through validation data
             print(
-                "Epoch:  %d | NLLoss: %.4f | Val Loss %.4f "
+                "Epoch:  %d | MSELoss: %.4f | Val Loss %.4f "
                 % (
                     epoch,
                     train_running_loss / num_batches,
                     val_running_loss / num_dev_batches,
                 )
             )
+        epoch_list.append(epoch)
+        val_loss_list.append(val_running_loss / num_dev_batches)
+
+plt.plot(epoch_list, val_loss_list)
+plt.xlabel("# of epochs")
+plt.ylabel("MSELoss")
+plt.title("LSTM: Loss vs # epochs")
+plt.savefig('graph.png')
+plt.show()
