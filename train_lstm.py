@@ -19,7 +19,7 @@ model = LSTM(
     input_size=6,  # TODO : 6
     hidden_size=hidden_size,
     batch_size=batch_size,
-    output_size=1,  # TODO : 1
+    output_size=2,  # TODO : 1
     num_layers=num_layers
 )
 
